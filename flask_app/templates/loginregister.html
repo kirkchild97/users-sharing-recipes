@@ -11,8 +11,15 @@
     <div class="container row mx-auto">
         <!-- Registration -->
         <div class="card card-body d-inline-block mx-5 col-3 bg-danger">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                    <p class="text-light">{{ message }}</p>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
             <h2 class="text-light">Registration</h2>
-            <form class="d-flex flex-column" action="" method="post">
+            <form class="d-flex flex-column" action="/tryregister" method="post">
                 <label class="text-light mt-3" for="first_name">First Name:</label>
                 <input type="text" name="first_name" id="first_name" required>
                 <label class="text-light mt-3" for="last_name">Last Name:</label>
@@ -29,7 +36,7 @@
         <!-- Login -->
         <div class="card card-body d-inline-block mx-5 col-3 bg-danger">
             <h2 class="text-light">Login</h2>
-            <form class="d-flex flex-column" action="" method="post">
+            <form class="d-flex flex-column" action="/trylogin" method="post">
                 <label class="text-light mt-3" for="email">Email:</label>
                 <input type="text" name="email" id="email" required>
                 <label class="text-light mt-3" for="password">Password:</label>
