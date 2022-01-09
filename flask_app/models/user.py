@@ -1,5 +1,6 @@
 from flask_app.config.mysqlconnection import connectToMySQL as connect
 import re
+from flask_app.models.recipe import Recipe
 from flask import flash
 
 class User:
@@ -29,7 +30,13 @@ class User:
 
     @classmethod
     def login_user(cls, data):
-        pass
+        query = '''SELECT id, first_name, last_name, email FROM users WHERE id = %(id)s;'''
+        results = connect('recipes').query_db(query, data)
+        user_data = {
+            'user_info' : results[0]
+        }
+        user_data['recipes'] = Recipe.get_recipes()
+        return user_data
 
 
 

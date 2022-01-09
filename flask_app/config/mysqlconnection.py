@@ -13,7 +13,7 @@ class mySQLConnection:
         )
         self.connection = connection
         
-    def query_db(self, query : str, data : dict):
+    def query_db(self, query : str, data : dict = None):
         with self.connection.cursor() as cursor:
             try:
                 query = cursor.mogrify(query, data)

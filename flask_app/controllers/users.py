@@ -45,6 +45,6 @@ def user_dashboard(user_id):#Get all recipes for display on table
     if 'logged_in' in session:
         if session['logged_in']:
             data = {'id' : user_id}
-            User.login_user(data)
-            return render_template('dashboard.html')
+            user_data = User.login_user(data)
+            return render_template('dashboard.html', user = user_data['user_info'], recipes = user_data['recipes'])
     return redirect('/')

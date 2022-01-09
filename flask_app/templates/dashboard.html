@@ -10,7 +10,7 @@
 <body class="bg-primary">
     <!-- Navigation Bar -->
     <div class="navbar row px-5 py-3 bg-danger">
-        <h1 class="col-6 text-light">UserName's Recipes</h1>
+        <h1 class="col-6 text-light">{{ user['first_name'] }} {{ user['last_name'] }}'s Recipes</h1>
         <div class="col-3 d-flex justify-content-between">
             <a class="btn btn-danger border border-3 border-light px-5" href="#">Home</a>
             <a class="btn btn-danger border border-3 border-light px-5" href="#">Create New</a>
@@ -27,22 +27,21 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>User Made</td>
-                <td>Yes</td>
-                <td>
-                    <a class="btn btn-primary" href="#">View Instructions</a>
-                    <a class="btn btn-primary" href="#">Edit</a>
-                    <a class="btn btn-danger" href="#">Delete</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Not User Made</td>
-                <td>Yes</td>
-                <td>
-                    <a class="btn btn-primary" href="#">View Instructions</a>
-                </td>
-            </tr>
+            {% if recipes %}
+                {% for recipe in recipes %}
+                    <tr>
+                        <td>{{ recipe['name'] }}</td>
+                        <td>{{ recipe['under_30'] }}</td>
+                        <td>
+                            <a class="btn btn-primary" href="#">View Instructions</a>
+                            {% if recipe['user_id'] == user['id'] %}
+                                <a class="btn btn-primary" href="#">Edit</a>
+                                <a class="btn btn-danger" href="#">Delete</a>
+                            {% endif  %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
         </tbody>
     </table>
 </body>
