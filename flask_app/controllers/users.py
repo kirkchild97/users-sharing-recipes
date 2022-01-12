@@ -40,11 +40,19 @@ def try_login():#Check for valid user and send to dashboard if successfull
             session['logged_in'] = True
             return redirect('/userDashboard/' + str(session['id']))
 
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect('/')
+
 @app.route('/userDashboard/<user_id>')
 def user_dashboard(user_id):#Get all recipes for display on table
     if 'logged_in' in session:
         if session['logged_in']:
             data = {'id' : user_id}
             user_data = User.login_user(data)
+            session['id'] = user_id
+            session['first_name'] = user_data['user_info']['first_name']
+            session['last_name'] = user_data['user_info']['last_name']
             return render_template('dashboard.html', user = user_data['user_info'], recipes = user_data['recipes'])
     return redirect('/')

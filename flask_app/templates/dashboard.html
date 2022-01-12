@@ -10,11 +10,11 @@
 <body class="bg-primary">
     <!-- Navigation Bar -->
     <div class="navbar row px-5 py-3 bg-danger">
-        <h1 class="col-6 text-light">{{ user['first_name'] }} {{ user['last_name'] }}'s Recipes</h1>
+        <h1 class="col-6 text-light">{{ session['first_name'] }} {{ session['last_name'] }}'s Recipes</h1>
         <div class="col-3 d-flex justify-content-between">
-            <a class="btn btn-danger border border-3 border-light px-5" href="#">Home</a>
-            <a class="btn btn-danger border border-3 border-light px-5" href="#">Create New</a>
-            <a class="btn btn-danger border border-3 border-light px-5" href="#">Logout</a>
+            <a class="btn btn-danger border border-3 border-light px-5" href="/userDashboard/{{ session['id'] }}">Home</a>
+            <a class="btn btn-danger border border-3 border-light px-5" href="/userDashboard/{{ session['id'] }}/newRecipe">Create New</a>
+            <a class="btn btn-danger border border-3 border-light px-5" href="/logout">Logout</a>
         </div>
     </div>
     <!-- Content -->
@@ -31,12 +31,16 @@
                 {% for recipe in recipes %}
                     <tr>
                         <td>{{ recipe['name'] }}</td>
-                        <td>{{ recipe['under_30'] }}</td>
+                        {% if recipe['under_30_min'] == 0 %}
+                            <td>No</td>
+                        {% else %}
+                            <td>Yes</td>
+                        {% endif %}
                         <td>
-                            <a class="btn btn-primary" href="#">View Instructions</a>
-                            {% if recipe['user_id'] == user['id'] %}
-                                <a class="btn btn-primary" href="#">Edit</a>
-                                <a class="btn btn-danger" href="#">Delete</a>
+                            <a class="btn btn-primary" href="/userDashboard/{{ session['id'] }}/{{recipe['id']}}">View Instructions</a>
+                            {% if recipe['user_id']|string == session['id']|string %}
+                                <a class="btn btn-primary" href="/userDashboard/{{ session['id'] }}/{{recipe['id']}}/edit">Edit</a>
+                                <a class="btn btn-danger" href="/userDashboard/{{ session['id'] }}/{{recipe['id']}}/delete">Delete</a>
                             {% endif  %}
                         </td>
                     </tr>

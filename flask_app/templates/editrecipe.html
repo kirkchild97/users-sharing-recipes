@@ -10,35 +10,75 @@
 <body class="bg-primary">
     <!-- Navigation Bar -->
     <div class="navbar row px-5 py-3 bg-danger">
-        <h1 class="col-6 text-light">UserName's Recipes</h1>
+        <h1 class="col-6 text-light">{{ session['first_name'] }} {{ session['last_name'] }}'s Recipes</h1>
         <div class="col-2 d-flex justify-content-between">
-            <a class="btn btn-danger border border-3 border-light px-5" href="#">Home</a>
-            <a class="btn btn-danger border border-3 border-light px-5" href="#">Logout</a>
+            <a class="btn btn-danger border border-3 border-light px-5" href="/userDashboard/{{ session['id'] }}">Home</a>
+            <a class="btn btn-danger border border-3 border-light px-5" href="/logout">Logout</a>
         </div>
     </div>
     <!-- Content -->
     <div>
-        <h2>Edit/Create Recipes</h2>
-        <form class="bg-danger row px-5 py-3 pb-5 d-flex justify-content-center" action="#" method="post">
+        {% if recipe == False %}
+            <h2>Create Recipe</h2>
+            <form class="bg-danger row px-5 py-3 pb-5 d-flex justify-content-center" action="/userDashboard/{{ session['id'] }}/newRecipe/create" method="post">
+                <div class="col-5 d-flex flex-column">
+                    <label class="text-light" for="recipe_name">Name:</label>
+                    <input type="text" name="recipe_name" id="recipe_name">
+                    <label class="text-light" for="description">Description:</label>
+                    <textarea name="description" id="description" cols="30" rows="10"></textarea>
+                    <label class="text-light" for="instructions">Instructions:</label>
+                    <textarea name="instructions" id="instructions" cols="30" rows="10"></textarea>
+                    <input class="btn btn-primary border border-3 border-light py-2 mt-3" type="submit" value="Create/Update">
+                </div>
+                <div class="col-2 d-flex flex-column">
+                    <label class="text-light" for="date_made">Date Recipe was Made:</label>
+                    <input type="date" name="date_made" id="date_made">
+                    <label class="text-light" for="under_30">Under 30 Minutes to Make?</label>
+                    <input type="radio" name="under_30" id="yes" value="1">
+                    <label class="text-light" for="yes">Yes</label>
+                    <input type="radio" name="under_30" id="no" value="0">
+                    <label class="text-light" for="no">No</label>
+                </div>
+            </form>
+        {% else %}
+        <h2>Edit Recipe</h2>
+        <form class="bg-danger row px-5 py-3 pb-5 d-flex justify-content-center" action="/userDashboard/{{ session['id'] }}/newRecipe/create" method="post">
             <div class="col-5 d-flex flex-column">
                 <label class="text-light" for="recipe_name">Name:</label>
-                <input type="text" name="recipe_name" id="recipe_name">
+                <input type="text" name="recipe_name" id="recipe_name" value="{{ recipe['name'] }}">
                 <label class="text-light" for="description">Description:</label>
-                <textarea name="description" id="description" cols="30" rows="10"></textarea>
+                <textarea name="description" id="description" cols="30" rows="10">{{ recipe['description'] }}</textarea>
                 <label class="text-light" for="instructions">Instructions:</label>
-                <textarea name="instructions" id="instructions" cols="30" rows="10"></textarea>
+                <textarea name="instructions" id="instructions" cols="30" rows="10">{{ recipe['instructions'] }}</textarea>
                 <input class="btn btn-primary border border-3 border-light py-2 mt-3" type="submit" value="Create/Update">
             </div>
             <div class="col-2 d-flex flex-column">
                 <label class="text-light" for="date_made">Date Recipe was Made:</label>
-                <input type="date" name="date_made" id="date_made">
+                <input type="date" name="date_made" id="date_made" value="{{ recipe['date_recipe_made'] }}">
                 <label class="text-light" for="under_30">Under 30 Minutes to Make?</label>
-                <input type="radio" name="under_30" id="yes">
+                {% if recipe['under_30_min']|string == '1' %}
+                    <input type="radio" name="under_30" id="yes" value="1" checked>
+                {% else %}
+                    <input type="radio" name="under_30" id="yes" value="1">
+                {% endif %}
                 <label class="text-light" for="yes">Yes</label>
-                <input type="radio" name="under_30" id="no">
+                {% if recipe['under_30_min']|string == '0' %}
+                    <input type="radio" name="under_30" id="no" value="0" checked>
+                {% else %}
+                    <input type="radio" name="under_30" id="no" value="0">
+                {% endif %}
                 <label class="text-light" for="no">No</label>
             </div>
         </form>
+        {% endif %}
+        
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="text-light">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
     </div>
 </body>
 </html>
