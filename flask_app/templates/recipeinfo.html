@@ -10,33 +10,37 @@
 <body>
     <!-- Navigation Bar -->
     <div class="navbar row px-5 py-3 bg-danger">
-        <h1 class="col-6 text-light">UserName's Recipes</h1>
+        <h1 class="col-6 text-light">{{ session['first_name'] }} {{ session['last_name'] }}'s Recipes</h1>
         <div class="col-2 d-flex justify-content-between">
-            <a class="btn btn-danger border border-3 border-light px-5" href="#">Home</a>
-            <a class="btn btn-danger border border-3 border-light px-5" href="#">Logout</a>
+            <a class="btn btn-danger border border-3 border-light px-5" href="/userDashboard/{{ session['id'] }}">Home</a>
+            <a class="btn btn-danger border border-3 border-light px-5" href="/logout">Logout</a>
         </div>
     </div>
     <!-- Content -->
     <div class="px-5">
-        <h2 class="text-light">Recipe Name</h2>
+        <h2 class="text-light">{{ recipe['name'] }}</h2>
         <table class="bg-light row mx-auto border border-3 border-dark p-4">
             <tr class="row mb-4">
                 <th class="col-1">Description</th>
-                <td class="col-11">Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum ut alias provident. Maiores veritatis accusantium numquam iste modi reprehenderit, vero neque, at aliquam dolorem voluptate. Ipsam itaque nulla consequatur facilis!
-                Dolorem incidunt excepturi nihil necessitatibus voluptatem eveniet, esse dolor delectus eius, corporis consectetur architecto quidem? Dolorum, provident ab, consequatur optio aliquid numquam, fuga necessitatibus voluptas doloremque aperiam veniam totam repellat?
-                Nesciunt corrupti sit possimus debitis voluptatibus unde eaque, sequi dolor magni, ex recusandae! Dolore quibusdam perferendis voluptas quisquam repellat, necessitatibus non doloremque vero sapiente expedita, nihil magni excepturi aliquam mollitia.</td>
+                <td class="col-11">{{ recipe['description'] }}</td>
             </tr>
             <tr class="row mb-4">
                 <th class="col-1">Under 30 Minutes</th>
-                <td class="col-11">Yes</td>
+                <td class="col-11">
+                    {% if recipe['under_30_min']|string == '1' %}
+                    Yes
+                    {% else %}
+                    No
+                    {% endif %}
+                </td>
             </tr>
             <tr class="row mb-4">
                 <th class="col-1">Instructions</th>
-                <td class="col-11">Do this then That</td>
+                <td class="col-11">{{ recipe['instructions'] }}</td>
             </tr>
             <tr class="row">
                 <th class="col-1">Date Made</th>
-                <td class="col-11">10/5/2021</td>
+                <td class="col-11">{{ recipe['date_recipe_made'] }}</td>
             </tr>
         </table>
     </div>

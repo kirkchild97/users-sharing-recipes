@@ -79,7 +79,9 @@ class User:
         query = '''SELECT email FROM users WHERE email = %(email)s'''
         results = connect('recipes').query_db(query, data)
         print('Results: ', results)
-        check = results == None
-        if  check:
-            flash('Email already used for another account!')
+        check = False
+        if 'email' in results:
+            check = results['email'] == data['email']
+            if  check:
+                flash('Email already used for another account!')
         return check

@@ -36,6 +36,12 @@ class Recipe:
         connect('recipes').query_db(query, data)
 
     @classmethod
+    def edit_recipe(cls, data):
+        query = '''UPDATE recipes.recipes SET name = %(name)s, description = %(description)s, under_30_min = %(under_30)s,
+        instructions = %(instructions)s, date_recipe_made = %(date_recipe_made)s WHERE id = %(id)s;'''
+        connect('recipes').query_db(query, data)
+
+    @classmethod
     def delete_recipe(cls, data):
         query = '''DELETE FROM recipes WHERE id = %(id)s;'''
         connect('recipes').query_db(query, data)

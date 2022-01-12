@@ -42,7 +42,7 @@
             </form>
         {% else %}
         <h2>Edit Recipe</h2>
-        <form class="bg-danger row px-5 py-3 pb-5 d-flex justify-content-center" action="/userDashboard/{{ session['id'] }}/newRecipe/create" method="post">
+        <form class="bg-danger row px-5 py-3 pb-5 d-flex justify-content-center" action="/userDashboard/{{ session['id'] }}/{{ recipe['id'] }}/edit/commit" method="post">
             <div class="col-5 d-flex flex-column">
                 <label class="text-light" for="recipe_name">Name:</label>
                 <input type="text" name="recipe_name" id="recipe_name" value="{{ recipe['name'] }}">

@@ -18,7 +18,7 @@ def try_register():#Ensure all inputs follow validation protocol before sending 
         'password' : request.form['password'],
         'con_password' : request.form['con_password']
     }
-    if User.validate_user_data(data) and User.check_for_email(data):
+    if User.validate_user_data(data) and not User.check_for_email(data):
         data['password'] = b.generate_password_hash(data['password'])
         User.save_user(data)
         print('Success')
